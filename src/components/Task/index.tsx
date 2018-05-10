@@ -27,6 +27,7 @@ function Task ( { task, tasks, updateTask }: Props ) {
   return (
     <TaskItem
       locked={ locked }
+      completed={ task.completedAt !== null }
       onClick={ () => {
         if ( !locked ) {
           updateTask(
@@ -101,8 +102,19 @@ export default compose<InjectedProps, ExternalProps>(
 
 interface TaskItemProps {
   locked: boolean;
+  completed: boolean;
 }
 const TaskItem = styled<TaskItemProps, any>( ListItem )`
+  color: ${ props => {
+    if ( props.locked ) {
+      return '#BBBBBB';
+    }
+
+    return '#000000';
+  } }
+
+  text-decoration: ${ props => props.completed ? 'line-through' : 'none' };
+
   &:hover {
     cursor: ${ props => props.locked ? 'default' : 'pointer' };
   }
